@@ -96,3 +96,16 @@ class TitusEnvironment:
         finally:
             for key in reversed(action.keys):
                 self.key_up(key)
+
+    def screenshot(self, output_path: str) -> None:
+        self.focus()
+
+        subprocess.run(
+            [
+                "gnome-screenshot",
+                "-w",
+                "-f",
+                output_path,
+            ],
+            check=True,
+        )
