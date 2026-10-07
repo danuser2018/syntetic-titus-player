@@ -1,4 +1,5 @@
 from pathlib import Path
+from .action import Action
 import subprocess
 import time
 
@@ -82,4 +83,16 @@ class TitusEnvironment:
             time.sleep(duration)
         finally:
             for key in reversed(keys):
+                self.key_up(key)
+
+    def execute(self, action: Action) -> None:
+        self.focus()
+
+        for key in action.keys:
+            self.key_down(key)
+
+        try:
+            time.sleep(action.duration)
+        finally:
+            for key in reversed(action.keys):
                 self.key_up(key)

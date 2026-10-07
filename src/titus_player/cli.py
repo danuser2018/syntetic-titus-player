@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 
+from titus_player.action import Action
 from titus_player.environment import TitusEnvironment
 
 
@@ -68,6 +69,24 @@ def main() -> None:
         help="Duration in seconds",
     )
 
+    # generic action
+    action_parser = subparsers.add_parser(
+        "action",
+        help="Execute an action",
+    )
+
+    action_parser.add_argument(
+        "duration",
+        type=float,
+        help="Duration in seconds",
+    )
+
+    action_parser.add_argument(
+        "keys",
+        nargs="+",
+        help="Keys to hold",
+    )
+
     args = parser.parse_args()
 
     environment = TitusEnvironment(GAME_PATH)
@@ -86,6 +105,14 @@ def main() -> None:
 
     elif args.command == "combo-left":
         environment.hold_combo(["Up", "Left"], args.duration)
+
+    elif args.command == "action":
+        action = Action(
+            keys=tuple(args.keys),
+            duration=args.duration,
+        )
+        print(f"Executing action: {action}")
+        environment.execute(action)
 
 if __name__ == "__main__":
     main()
