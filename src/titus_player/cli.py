@@ -46,6 +46,28 @@ def main() -> None:
         help="Duration in seconds",
     )
 
+    # combo-right
+    combo_right = subparsers.add_parser(
+        "combo-right",
+        help="Hold UP + RIGHT for a given duration",
+    )
+    combo_right.add_argument(
+        "duration",
+        type=float,
+        help="Duration in seconds",
+    )
+
+    # combo-left
+    combo_left = subparsers.add_parser(
+        "combo-left",
+        help="Hold UP + LEFT for a given duration",
+    )
+    combo_left.add_argument(
+        "duration",
+        type=float,
+        help="Duration in seconds",
+    )
+
     args = parser.parse_args()
 
     environment = TitusEnvironment(GAME_PATH)
@@ -59,6 +81,11 @@ def main() -> None:
     elif args.command == "jump":
         environment.hold("Up", args.duration)
 
+    elif args.command == "combo-right":
+        environment.hold_combo(["Up", "Right"], args.duration)
+
+    elif args.command == "combo-left":
+        environment.hold_combo(["Up", "Left"], args.duration)
 
 if __name__ == "__main__":
     main()

@@ -71,3 +71,15 @@ class TitusEnvironment:
         self.key_down(key)
         time.sleep(duration)
         self.key_up(key)
+
+    def hold_combo(self, keys: list[str], duration: float) -> None:
+        self.focus()
+
+        for key in keys:
+            self.key_down(key)
+
+        try:
+            time.sleep(duration)
+        finally:
+            for key in reversed(keys):
+                self.key_up(key)
