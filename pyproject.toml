@@ -1,0 +1,6 @@
+[project]
+name = "synthetic-titus-player"
+version = "0.1.0"
+
+[project.scripts]
+titus-player = "titus_player.cli:main"
