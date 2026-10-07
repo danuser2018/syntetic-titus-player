@@ -87,6 +87,18 @@ def main() -> None:
         help="Keys to hold",
     )
 
+    # screenshot
+    screenshot_parser = subparsers.add_parser(
+        "screenshot",
+        help="Capture the Titus window",
+    )
+
+    screenshot_parser.add_argument(
+        "output",
+        nargs="?",
+        default="screenshot.png",
+    )
+
     args = parser.parse_args()
 
     environment = TitusEnvironment(GAME_PATH)
@@ -113,6 +125,10 @@ def main() -> None:
         )
         print(f"Executing action: {action}")
         environment.execute(action)
+
+    elif args.command == "screenshot":
+        environment.screenshot(args.output)
+        print(f"Screenshot saved to {args.output}")
 
 if __name__ == "__main__":
     main()
