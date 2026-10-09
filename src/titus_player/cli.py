@@ -3,6 +3,7 @@ from pathlib import Path
 
 from titus_player.action import Action
 from titus_player.environment import TitusEnvironment
+from titus_player.reward import RewardTracker
 
 
 GAME_PATH = Path.home() / "games/fox/fox"
@@ -99,6 +100,17 @@ def main() -> None:
         default="screenshot.png",
     )
 
+    # reward
+    reward_parser = subparsers.add_parser(
+        "reward",
+        help="Evaluate novelty reward for a screenshot",
+    )
+
+    reward_parser.add_argument(
+        "image",
+        help="Screenshot to evaluate",
+    )
+
     args = parser.parse_args()
 
     environment = TitusEnvironment(GAME_PATH)
@@ -129,6 +141,11 @@ def main() -> None:
     elif args.command == "screenshot":
         environment.screenshot(args.output)
         print(f"Screenshot saved to {args.output}")
+
+    elif args.command == "reward":
+        tracker = RewardTracker()
+        reward = tracker.evaluate(args.image)
+        print(f"Reward: {reward}")
 
 if __name__ == "__main__":
     main()
